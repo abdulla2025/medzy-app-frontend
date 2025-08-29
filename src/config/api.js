@@ -18,20 +18,69 @@ export const createApiUrl = (endpoint) => {
   return `${API_BASE_URL}/${cleanEndpoint}`;
 };
 
+// Centralized API service
+export const apiService = {
+  // Generic fetch wrapper
+  async request(endpoint, options = {}) {
+    const url = createApiUrl(endpoint);
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      },
+      ...options
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return response.json();
+  },
+
+  // Common API methods
+  get: (endpoint, headers = {}) => apiService.request(endpoint, { method: 'GET', headers }),
+  post: (endpoint, data, headers = {}) => apiService.request(endpoint, { 
+    method: 'POST', 
+    body: JSON.stringify(data), 
+    headers 
+  }),
+  put: (endpoint, data, headers = {}) => apiService.request(endpoint, { 
+    method: 'PUT', 
+    body: JSON.stringify(data), 
+    headers 
+  }),
+  delete: (endpoint, headers = {}) => apiService.request(endpoint, { method: 'DELETE', headers })
+};
+
 // Export API endpoints
 export const API_ENDPOINTS = {
   // Auth endpoints
-  SESSION_CHECK: createApiUrl('auth/session-check'),
-  ME: createApiUrl('auth/me'),
-  SIGNIN: createApiUrl('auth/signin'),
-  SIGNUP: createApiUrl('auth/signup'),
-  LOGOUT: createApiUrl('auth/logout'),
+  SESSION_CHECK: 'auth/session-check',
+  ME: 'auth/me',
+  SIGNIN: 'auth/signin',
+  SIGNUP: 'auth/signup',
+  LOGOUT: 'auth/logout',
   
   // Donation endpoints
-  MY_DONATIONS: createApiUrl('donations/my-donations'),
+  MY_DONATIONS: 'donations/my-donations',
+  BROWSE_DONATIONS: 'donations/browse',
+  SUBMIT_DONATION: 'donations/submit',
+  REQUEST_DONATION: 'donations',
   
-  // Add other endpoints as needed
-  HEALTH: createApiUrl('health'),
+  // Medicine endpoints
+  MEDICINES_SEARCH: 'medicines/search',
+  MEDICINES_CATEGORIES: 'medicines/categories',
+  MEDICINES_DATA: 'medicines/data/categories',
+  MEDICINES_VENDOR: 'medicines/vendor-medicines',
+  MEDICINES: 'medicines',
+  
+  // Cart endpoints
+  CART_ADD: 'cart/add',
+  
+  // Other endpoints
+  HEALTH: 'health',
+  MEDICINE_REQUESTS_ALL: 'medicine-requests/all'
 };
 
 // External API URLs (these won't change)

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { API_BASE_URL } from '../config/api.js';
 import { 
   Package, 
   Plus, 
@@ -43,8 +44,6 @@ const MedicineManagement = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [categories, setCategories] = useState([]);
-
-  const API_BASE_URL = 'http://localhost:5000/api';
 
   // Form states
   const [formData, setFormData] = useState({

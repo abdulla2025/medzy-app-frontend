@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config/api.js';
 import LoadingSpinner from './LoadingSpinner';
 import Modal from './Modal';
 
@@ -31,7 +32,7 @@ const MyDonations = () => {
         status: filter
       });
 
-      const response = await fetch(`http://localhost:5000/api/donations/my-donations?${queryParams}`, {
+      const response = await fetch(`${API_BASE_URL}/api/donations/my-donations?${queryParams}`, {
         headers: getAuthHeaders()
       });
 
