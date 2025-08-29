@@ -2,7 +2,7 @@
 const getApiBaseUrl = () => {
   // In production, use your backend Vercel URL
   if (import.meta.env.PROD) {
-    return 'https://your-backend-app.vercel.app';
+    return 'https://medzy-app-backend.vercel.app';
   }
   
   // In development, use localhost
